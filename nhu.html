@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>7</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121F2A;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .popup {
+      position: absolute;
+      opacity: 0;
+      animation: float 2s ease-in-out infinite;
+      transition: opacity 0.5s ease;
+      cursor: default;
+      z-index: 1;
+    }
+
+    .popup-content {
+      text-align: center;
+      font-family: 'Noto Serif', serif;
+      font-size: 18px;
+      padding: 10px 15px;
+      display: inline-block;
+      white-space: nowrap;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      background-color: pink;
+      color: #8B0000;
+      transition: transform 0.2s ease;
+    }
+
+    .popup:hover .popup-content {
+      transform: scale(1.2);
+      z-index: 9999;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    
+    }
+
+.ribbon-popup {
+  position: absolute;
+  animation: float 2s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  cursor: default;
+  z-index: 1;
+}
+
+.ribbon-content {
+  font-size: 26px;
+  transition: transform 0.2s ease;
+}
+
+.ribbon-popup:hover .ribbon-content {
+  transform: scale(1.3);
+  z-index: 9999;
+}
+
+.image-popup {
+  position: absolute;
+  animation: float 2s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  cursor: default;
+  z-index: 1;
+}
+
+.image-popup img {
+  width: 150px;
+  height: auto;
+  transition: transform 0.2s ease;
+  border-radius: 15px;
+}
+
+.image-popup:hover img {
+  transform: scale(1.3);
+  z-index: 9999;
+}
+
+#start-screen {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #121F2A;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Serif', serif;
+  z-index: 99999;
+  text-align: center;
+  gap: 12px;
+}
+
+#start-screen button {
+  font-size: 20px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background-color: #F4A3C2;
+  color: #8B0000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+#start-screen button:hover {
+  transform: scale(1.1);
+}
+
+  </style>
+</head>
+<body>
+  <div id="start-screen">
+    <button onclick="startExperience()">Bắt đầu</button>
+  </div>
+
+  <video id="bg-music" src="nhu.mp4" preload="auto" loop style="display: none;"></video>
+<script>
+  const colors = [
+  "#FFE9F0", "#FFDEE9", "#F8C8DC", "#F4A3C2", "#F2A6BC"
+];
+
+
+  function createPopup(message) {
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+
+    const content = document.createElement('div');
+    content.className = 'popup-content';
+    content.textContent = message;
+
+    const bgColor = colors[Math.floor(Math.random() * colors.length)];
+    content.style.backgroundColor = bgColor;
+
+    popup.appendChild(content);
+    document.body.appendChild(popup);
+
+    const popupWidth = popup.offsetWidth;
+    const popupHeight = popup.offsetHeight;
+    document.body.removeChild(popup);
+
+    const x = Math.floor(Math.random() * (window.innerWidth - popupWidth));
+    const y = Math.floor(Math.random() * (window.innerHeight - popupHeight));
+    popup.style.left = x + 'px';
+    popup.style.top = y + 'px';
+
+    document.body.appendChild(popup);
+    setTimeout(() => popup.style.opacity = '1', 10);
+  }
+
+  function createRibbonPopup() {
+  const cuteIcons = ['🎀', '💖', '🌸', '✨', '🫶'];
+  
+  const popup = document.createElement('div');
+  popup.className = 'ribbon-popup';
+
+  const content = document.createElement('div');
+  content.className = 'ribbon-content';
+  content.textContent = cuteIcons[Math.floor(Math.random() * cuteIcons.length)];
+
+  popup.appendChild(content);
+
+  const x = Math.random() * (window.innerWidth - 40);
+  const y = Math.random() * (window.innerHeight - 40);
+
+  popup.style.left = `${x}px`;
+  popup.style.top = `${y}px`;
+
+  document.body.appendChild(popup);
+  setTimeout(() => popup.style.opacity = '1', 10);
+}
+
+
+  function createImagePopup(src) {
+  const popup = document.createElement('div');
+  popup.className = 'image-popup';
+
+  const img = document.createElement('img');
+  img.src = src;
+
+  img.onload = () => {
+    const imgWidth = img.width;
+    const imgHeight = img.height;
+
+    const x = Math.random() * (window.innerWidth - imgWidth);
+    const y = Math.random() * (window.innerHeight - imgHeight);
+
+    popup.style.left = `${x}px`;
+    popup.style.top = `${y}px`;
+    popup.style.opacity = '1';
+  };
+
+  popup.appendChild(img);
+  document.body.appendChild(popup);
+}  
+  function startExperience() {
+  document.getElementById("start-screen").style.display = "none";
+
+  const music = document.getElementById("bg-music");
+  music.play();
+  }
+ 
+
+  const popupInterval = setInterval(() => {
+  createPopup("I swear that I'm already all in for youu");
+  setTimeout(() => createPopup("I trust youuu"), 100);
+  setTimeout(() => createPopup("Cố lên nhaaa"), 200);
+  setTimeout(() => createPopup("Only you"), 300);
+  setTimeout(() => createPopup("Don't worry, I got your backk"), 400);
+  setTimeout(() => createPopup("I'm proud of you so muchhh"), 500);
+  setTimeout(() => createPopup("Just do whatever you want, I'm with you"), 600);
+  setTimeout(() => createPopup("I choose my love, I choose you"), 700);
+  setTimeout(() => createPopup("I know I got a soft spot for you "), 800);
+  setTimeout(() => createPopup("I adore you so muchh"), 900);
+  setTimeout(() => createPopup("I love you, I love you, I love you, I do"), 900);
+  setTimeout(() => createPopup("*ôm ôm*"), 800);
+  for (let i = 0; i < 5; i++) {
+  setTimeout(() => createRibbonPopup(), i * 140); // mỗi 150ms gọi 1 icon
+}
+  setTimeout(() => createImagePopup("Chiiu.jpg"), 650);
+  setTimeout(() => createImagePopup("Chiiuu.jpg"), 450);
+  setTimeout(() => createImagePopup("Chiiuuu.jpg"), 250);
+  }, 1600); // 2 giây lặp lại toàn bộ chuỗi
+</script>
+</body>
+</html>
+
